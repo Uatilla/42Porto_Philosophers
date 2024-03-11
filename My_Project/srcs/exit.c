@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: uviana-a <uviana-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/10 18:55:08 by uviana-a          #+#    #+#             */
-/*   Updated: 2024/03/10 18:55:11 by uviana-a         ###   ########.fr       */
+/*   Created: 2024/03/11 20:58:24 by uviana-a          #+#    #+#             */
+/*   Updated: 2024/03/11 20:58:27 by uviana-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int argc, char **argv)
+int msg(char *str, char *detail, int exit_nbr)
 {
-    printf("Argc: %d, Argv[1]:%s\n", argc, argv[1]);
-    if(!validate_input(argc, argv))
-        return (EXIT_FAILURE);
-    return (EXIT_SUCCESS);
+    printf("%s",str);
+    if (detail)
+        printf("%s",detail);
+    return(exit_nbr);
 }
