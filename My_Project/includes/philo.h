@@ -18,11 +18,17 @@
 #include <stdbool.h>
 
 // MACROS
+
+//Error messages:
 #define INPUT_ERROR "ERROR: INVALID INPUT\n"
 #define HOW_TO_INPUT "How to use: ./philo <number_of_philosophers> \
 <time_to_die> <time_to_eat> <time_to_sleep> \
 [number_of_times_each_philosopher_must_eat]\n"
 #define VALUES "Only positive numbers are allowed.\n"
+#define OUT_RANGE "The input exceeds the maximum INT value: \
+2147483647.\n"
+
+#define INT_MAX 2147483647
 
 // FUNCTION PROTOTYPES
 // input_validation.c

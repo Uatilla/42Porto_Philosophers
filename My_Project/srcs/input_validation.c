@@ -12,31 +12,57 @@
 
 #include "philo.h"
 
-int     is_it_numeric(char *str)
+/*ADD THE CONDITION FOR WHITE SPACES AND '+'*/
+long int ft_atoi_positive(char *str)
 {
-    while (*str)
+    long int num;
+
+    num = 0;
+    while (*str >= '0' && *str <= '9')
     {
-        if (*str < '0' || *str > '9')
-            return (EXIT_FAILURE);
+        num *= 10;
+        num += *str - 48;
         str++;
     }
-    return (EXIT_SUCCESS);
+    return (num);
+
+}
+
+static bool     check_int_max(char *str)
+{
+    if (ft_atoi_positive(str) > INT_MAX)
+        return (false);
+    return (true);
+}
+
+/*ADD THE CONDITION FOR WHITE SPACES AND '+' SIGN;*/
+static bool     is_it_positiv_numeric(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i] && str[i] != '\0')
+    {
+        if (str[i] < '0' || str[i] > '9')
+            return (false);
+        i++;
+    }
+    return (true);
 }
 
 bool    validate_input(int argc, char **argv)
 {
     int i;
 
-    printf("Argc: %d, Argv[1]:%s\n", argc, argv[1]);
     if (argc < 5 || argc > 6)
         return (msg(INPUT_ERROR, HOW_TO_INPUT, EXIT_FAILURE));
     i = 0;
     while (++i < argc)
     {
-        if(!is_it_numeric(argv[i]))
+        if(!is_it_positiv_numeric(argv[i]))
             return (msg(INPUT_ERROR, VALUES, EXIT_FAILURE));
-        //ATTRIBUTES THE NUMBER VALUE INT0 A VARIABLE
-        //VALIDATE THAT THE NUMBER IS BELOW INT MAX AND ZERO.
+        if(!check_int_max(argv[i]))
+            return (msg(INPUT_ERROR, OUT_RANGE, EXIT_FAILURE));
     }
     return (EXIT_SUCCESS);
 }

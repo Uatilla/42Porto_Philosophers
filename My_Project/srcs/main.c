@@ -14,7 +14,6 @@
 
 int main(int argc, char **argv)
 {
-    printf("Argc: %d, Argv[1]:%s\n", argc, argv[1]);
     if(!validate_input(argc, argv))
         return (EXIT_FAILURE);
     return (EXIT_SUCCESS);
