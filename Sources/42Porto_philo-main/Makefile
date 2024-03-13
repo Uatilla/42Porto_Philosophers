@@ -6,7 +6,7 @@
 #    By: arepsa <arepsa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/27 11:06:34 by arepsa            #+#    #+#              #
-#    Updated: 2024/01/20 18:16:17 by arepsa           ###   ########.fr        #
+#    Updated: 2024/03/13 19:59:06 by uviana-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ RM = rm -rf
 
 # ------------- FLAGS ------------- #
 CFLAGS 	= -Wall -Wextra -Werror -g
-TH_FLAG = -pthread #-fsanitize=thread
+TH_FLAG = -pthread -fsanitize=thread
 MK_FLAG = --no-print-directory
 
 # -------------- PATHS -------------- #

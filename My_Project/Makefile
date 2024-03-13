@@ -37,11 +37,11 @@ INCLUDES	=	includes
 
 # Flags
 CFLAGS		= -Wall -Wextra -Werror -g -O0
-THFLAG		= -pthread -fsanitize=thread
+THFLAG		= -pthread #-fsanitize=thread
 MK_FLAG		= --no-print-directory
 
 # Files
-SRCS		=	main.c input_validation.c exit.c
+SRCS		=	main.c input_validation.c exit.c utils.c
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)/%.o)
 
 # Rules

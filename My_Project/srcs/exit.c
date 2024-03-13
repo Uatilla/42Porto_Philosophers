@@ -12,10 +12,10 @@
 
 #include "philo.h"
 
-int msg(char *str, char *detail, int exit_nbr)
+int	msg(char *str, char *detail, int exit_nbr)
 {
-    printf("%s",str);
-    if (detail)
-        printf("%s",detail);
-    return(exit_nbr);
+	printf("%s", str);
+	if (detail)
+		printf("%s", detail);
+	return (exit_nbr);
 }
