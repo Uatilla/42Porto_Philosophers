@@ -41,7 +41,8 @@ THFLAG		= -pthread #-fsanitize=thread
 MK_FLAG		= --no-print-directory
 
 # Files
-SRCS		=	main.c input_validation.c exit.c utils.c
+SRCS		=	main.c input_validation.c exit.c utils.c \
+				initialize.c
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)/%.o)
 
 # Rules

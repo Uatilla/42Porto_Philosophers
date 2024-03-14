@@ -49,6 +49,8 @@ bool	validate_input(int argc, char **argv)
 			return (msg(INPUT_ERROR, VALUES, EXIT_FAILURE));
 		if (!check_int_max(argv[i]))
 			return (msg(INPUT_ERROR, OUT_RANGE, EXIT_FAILURE));
+		if (i == 1 && ft_atoi_positive(argv[i]) == 0)
+			return (msg(INPUT_ERROR, NO_PHILO, EXIT_FAILURE));
 	}
-	return (EXIT_SUCCESS);
+	return (true);
 }

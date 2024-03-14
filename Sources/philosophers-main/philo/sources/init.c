@@ -134,6 +134,11 @@ t_table	*init_table(int ac, char **av, int i)
 	table->must_eat_count = -1;
 	if (ac - 1 == 5)
 		table->must_eat_count = integer_atoi(av[i]);
+
+
+
+
+	//HERE ******************
 	table->philos = init_philosophers(table);
 	if (!table->philos)
 		return (NULL);
