@@ -85,6 +85,8 @@ static t_philo	**init_philosophers(t_table *table)
 		philos[i] = malloc(sizeof(t_philo) * 1);
 		if (!philos[i])
 			return (error_null(STR_ERR_MALLOC, NULL, 0));
+		
+		
 		if (pthread_mutex_init(&philos[i]->meal_time_lock, 0) != 0)
 			return (error_null(STR_ERR_MUTEX, NULL, 0));
 		philos[i]->table = table;
@@ -134,14 +136,11 @@ t_table	*init_table(int ac, char **av, int i)
 	table->must_eat_count = -1;
 	if (ac - 1 == 5)
 		table->must_eat_count = integer_atoi(av[i]);
-
-
-
-
-	//HERE ******************
 	table->philos = init_philosophers(table);
+
 	if (!table->philos)
 		return (NULL);
+	//HERE ******************
 	if (!init_global_mutexes(table))
 		return (NULL);
 	table->sim_stop = false;

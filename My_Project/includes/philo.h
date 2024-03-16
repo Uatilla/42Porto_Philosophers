@@ -18,8 +18,20 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <sys/time.h>
+# include <pthread.h>
 
 // STRUCTURES
+typedef struct s_table  t_table;
+
+typedef struct s_philo  
+{
+    pthread_mutex_t meal_time_locker;
+    unsigned int    id;
+    unsigned int    meal_count;
+    t_table         *table;
+    unsigned int    fork[2];
+}   t_philo;
+
 typedef struct s_table
 {
     unsigned int    nbr_philos;
@@ -27,6 +39,7 @@ typedef struct s_table
     time_t          time_to_eat;
     time_t          time_to_sleep;
     int             max_meals;
+    t_philo         **philos;
 }   t_table;
 
 
@@ -43,6 +56,8 @@ typedef struct s_table
 # define NO_PHILO "The number of philosophers can't be zero.\n"
 # define ERR_MALLOC "ERROR: MEMORY COULDN'T BE ALLOCATED\n"
 # define TABLE_INIT "Table structure wasn't initialized properly.\n"
+# define PHILO_INIT "Philosopher structure wasn't initialized properly.\n"
+# define ERR_MUTEX "ERROR: MUTEX COULDN'T BE INITIALIZED\n"
 
 // FUNCTION PROTOTYPES
 // input_validation.c
