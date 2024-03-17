@@ -12,6 +12,23 @@
 
 #include "philo.h"
 
+static bool	start_simulation(t_table *table)
+{
+	unsigned int	i;
+	/*Check the reason you should add anything on the 
+	start_time, why is that.*/
+	table->start_time = get_ms_time();
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		if (pthread_create(&table->philos[i]->philo_thread, NULL,
+				&philosopher, table->philos[i]) != 0)
+			return (error_manage(ERR_THREAD, "Philosopher Thread.\n",
+									table));
+	}
+	return (true);
+}
+
 int	main(int argc, char **argv)
 {
 	t_table	*table;
@@ -23,6 +40,10 @@ int	main(int argc, char **argv)
 	table = initialize_table(argc, argv, 1);
 	if (!table)
 		return (EXIT_FAILURE);
+	printf("Initialized\n");
+	if(! start_simulation(table))
+		return (EXIT_FAILURE);
+
 	printf("Nbr Philos: %d\n", table->nbr_philos);
 	printf("Time to Die: %d\n", (int)table->time_to_die);
 	printf("Time to eat: %d\n", (int)table->time_to_eat);

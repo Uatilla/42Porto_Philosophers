@@ -30,6 +30,7 @@ typedef struct s_philo
     unsigned int    meal_count;
     t_table         *table;
     unsigned int    fork[2];
+    pthread_t       philo_thread;
 }   t_philo;
 
 typedef struct s_table
@@ -40,6 +41,11 @@ typedef struct s_table
     time_t          time_to_sleep;
     int             max_meals;
     t_philo         **philos;
+    pthread_mutex_t *fork_locker;
+    pthread_mutex_t sim_stop_locker;
+    pthread_mutex_t write_locker;
+    bool            stop_simulation;
+    time_t          start_time;
 }   t_table;
 
 
@@ -55,9 +61,11 @@ typedef struct s_table
 2147483647.\n"
 # define NO_PHILO "The number of philosophers can't be zero.\n"
 # define ERR_MALLOC "ERROR: MEMORY COULDN'T BE ALLOCATED\n"
-# define TABLE_INIT "Table structure wasn't initialized properly.\n"
-# define PHILO_INIT "Philosopher structure wasn't initialized properly.\n"
+# define TABLE_INIT "Table wasn't initialized properly.\n"
+# define PHILO_INIT "Philosopher wasn't initialized properly.\n"
 # define ERR_MUTEX "ERROR: MUTEX COULDN'T BE INITIALIZED\n"
+# define FORK_INIT "Fork wasn't initiliazed properly.\n"
+# define ERR_THREAD "ERROR: THREAD COULDN'T BE INITIALIZED\n"
 
 // FUNCTION PROTOTYPES
 // input_validation.c
@@ -66,9 +74,13 @@ bool		validate_input(int argc, char **argv);
 // exit.c
 int			msg(char *str, char *detail, int exit_nbr);
 void        *handle_error_and_exit(char *str, char *detail, t_table *table);
+int         error_manage(char *str, char *detail, t_table *table);
 
 // initialize.c
 t_table     *initialize_table(int argc, char **argv, int i);
+
+//time.c
+time_t      get_ms_time(void);
 
 //utils.c
 bool		is_white_space(char c);
