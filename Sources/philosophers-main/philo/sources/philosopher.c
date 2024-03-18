@@ -101,6 +101,7 @@ void	*philosopher(void *data)
 	philo = (t_philo *)data;
 	if (philo->table->must_eat_count == 0)
 		return (NULL);
+	//TO DO
 	pthread_mutex_lock(&philo->meal_time_lock);
 	philo->last_meal = philo->table->start_time;
 	pthread_mutex_unlock(&philo->meal_time_lock);

@@ -56,7 +56,7 @@ static t_philo  **initialize_philos(t_table *table)
         /*Considering that the **philos were allocated and each philosopher
         was allocated too, since a malloc error happens during the mutex
         initialization for example, should the var on handle_error_and_exit
-        be zero, check with valgrind!*/
+        be zero? check with valgrind!*/
         philos[i] = malloc(sizeof(t_philo));
         if (!philos[i])
             return (handle_error_and_exit(ERR_MALLOC, PHILO_INIT, 0));

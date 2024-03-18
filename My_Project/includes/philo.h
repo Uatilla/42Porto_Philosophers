@@ -31,6 +31,7 @@ typedef struct s_philo
     t_table         *table;
     unsigned int    fork[2];
     pthread_t       philo_thread;
+    time_t          last_meal_time;
 }   t_philo;
 
 typedef struct s_table
@@ -85,4 +86,7 @@ time_t      get_ms_time(void);
 //utils.c
 bool		is_white_space(char c);
 long int	ft_atoi_positive(char *str);
+
+//philo.c
+void        *philosopher(void *data);
 #endif
