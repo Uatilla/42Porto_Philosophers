@@ -9,7 +9,7 @@ ifeq ($(MODE), pretty)
 	CFLAGS	+= -D DEBUG_FORMATTING=1
 endif
 ifeq ($(MODE), debug)
-	CFLAGS	+= -D DEBUG_FORMATTING=1 -fsanitize=thread -g
+	CFLAGS	+= -D DEBUG_FORMATTING=1 -g #-fsanitize=thread
 endif
 
 SRC_PATH = sources/

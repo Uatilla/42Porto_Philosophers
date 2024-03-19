@@ -12,7 +12,26 @@
 
 #include "philo.h"
 
-static void assign_fork(t_philo *philo)
+static pthread_mutex_t  *init_forks_mutexes(t_table *table)
+{
+    pthread_mutex_t *forks;
+    unsigned int    i;
+
+    forks = malloc(sizeof(pthread_mutex_t) * table->nbr_philos);
+    if (!forks)
+        return (handle_error_and_exit(ERR_MALLOC, FORK_INIT, 0));
+    i = 0;
+    /*Why these functions uses the var table as NULL?*/
+    while (i < table->nbr_philos)
+    {
+        if (pthread_mutex_init (&forks[i], 0) != 0)
+            return (handle_error_and_exit(ERR_MUTEX, FORK_INIT, 0));
+        i++;
+    }
+    return (forks);
+}
+
+static void     assign_forks(t_philo    *philo)
 {
     philo->fork[0] = philo->id;
     philo->fork[1] = (philo->id + 1) % philo->table->nbr_philos;
@@ -23,33 +42,45 @@ static void assign_fork(t_philo *philo)
     }
 }
 
-static t_philo **initialize_philo(t_table *table)
+static t_philo  **initialize_philos(t_table *table)
 {
-    t_philo **philos;
+    t_philo     **philos;
     unsigned int    i;
 
     philos = malloc(sizeof(t_philo) * table->nbr_philos);
     if (!philos)
         return (handle_error_and_exit(ERR_MALLOC, PHILO_INIT, 0));
     i = 0;
-    while(i < table->nbr_philos)
+    while (i < table->nbr_philos)
     {
+        /*Considering that the **philos were allocated and each philosopher
+        was allocated too, since a malloc error happens during the mutex
+        initialization for example, should the var on handle_error_and_exit
+        be zero? check with valgrind!*/
         philos[i] = malloc(sizeof(t_philo));
         if (!philos[i])
-            return(handle_error_and_exit(ERR_MALLOC, PHILO_INIT, 0));
-        philos[i]->id = i;
+            return (handle_error_and_exit(ERR_MALLOC, PHILO_INIT, 0));
+        if (pthread_mutex_init(&philos[i]->meal_time_locker, 0) != 0)
+            return (handle_error_and_exit(ERR_MUTEX, NULL, 0));
         philos[i]->table = table;
+        philos[i]->id = i;
         philos[i]->meal_count = 0;
-        assign_fork(philos[i]);
-        /*
-        The philo Mutex to change the meal time clock, and the last meal
-        start time. (When the philo started to eat, last time or the
-        start of the simulation)
-        the threads to works in parallel in the routine the forks assigned to it*/
+        assign_forks(philos[i]);
         i++;
     }
-
     return (philos);
+}
+
+static bool init_global_mutexes(t_table *table)
+{
+    table->fork_locker = init_forks_mutexes(table);
+    if (!table->fork_locker)
+        return (false);
+    if (pthread_mutex_init(&table->sim_stop_locker, 0) != 0)
+        return (error_manage(ERR_MUTEX, "Simulation stopper.\n", table));
+    if (pthread_mutex_init(&table->write_locker, 0) != 0)
+        return (error_manage(ERR_MUTEX, "Write locker.\n", table));
+    return (true);
 }
 
 t_table *initialize_table(int argc, char **argv, int i)
@@ -65,8 +96,14 @@ t_table *initialize_table(int argc, char **argv, int i)
     table->time_to_sleep = ft_atoi_positive(argv[i++]);
     if (argc == 6)
         table->max_meals = ft_atoi_positive(argv[i]);
-    table->philos = initialize_philo(table);
+    
+    
+    
+    table->philos = initialize_philos(table);
     if (!table->philos)
-        return (handle_error_and_exit(ERR_MALLOC, PHILO_INIT, table));
+        return (NULL);
+    if (!init_global_mutexes(table))
+        return (NULL);
+    table->stop_simulation = false;
     return (table);
 }

@@ -23,14 +23,17 @@
 // STRUCTURES
 typedef struct s_table  t_table;
 
-typedef struct s_philo
+typedef struct s_philo  
 {
-    t_table         *table;
+    pthread_mutex_t meal_time_locker;
     unsigned int    id;
     unsigned int    meal_count;
+    t_table         *table;
     unsigned int    fork[2];
-    time_t          last_meal_start; //Will be started when the pthread be called.
+    pthread_t       philo_thread;
+    time_t          last_meal_time;
 }   t_philo;
+
 typedef struct s_table
 {
     unsigned int    nbr_philos;
@@ -39,6 +42,11 @@ typedef struct s_table
     time_t          time_to_sleep;
     int             max_meals;
     t_philo         **philos;
+    pthread_mutex_t *fork_locker;
+    pthread_mutex_t sim_stop_locker;
+    pthread_mutex_t write_locker;
+    bool            stop_simulation;
+    time_t          start_time;
 }   t_table;
 
 

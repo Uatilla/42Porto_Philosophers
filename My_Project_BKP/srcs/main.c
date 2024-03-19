@@ -12,6 +12,23 @@
 
 #include "philo.h"
 
+static bool	start_simulation(t_table *table)
+{
+	unsigned int	i;
+
+	table->start_time = get_ms_time() + (table->nbr_philos * 2 * 10);
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		if (pthread_create(&table->philos[i]->philo_thread, NULL,
+				&philosopher, table->philos[i]) != 0)
+			return (error_manage(ERR_THREAD, "Philosopher Thread.\n",
+									table));
+		i++;
+	}
+	return (true);
+}
+
 int	main(int argc, char **argv)
 {
 	t_table	*table;
@@ -21,6 +38,8 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	table = initialize_table(argc, argv, 1);
 	if (!table)
+		return (EXIT_FAILURE);
+	if(!start_simulation(table))
 		return (EXIT_FAILURE);
 
 	printf("Nbr Philos: %d\n", table->nbr_philos);

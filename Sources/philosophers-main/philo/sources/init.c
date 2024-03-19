@@ -140,7 +140,6 @@ t_table	*init_table(int ac, char **av, int i)
 
 	if (!table->philos)
 		return (NULL);
-	//HERE ******************
 	if (!init_global_mutexes(table))
 		return (NULL);
 	table->sim_stop = false;
