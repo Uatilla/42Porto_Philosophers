@@ -21,6 +21,7 @@ static void assign_fork(t_philo *philo)
         philo->fork[0] = (philo->id + 1) % philo->table->nbr_philos;
         philo->fork[1] = philo->id;
     }
+    //printf("Philo: %d F1: %d F2: %d\n", philo->id, philo->fork[0], philo->fork[1]);
 }
 
 static t_philo **initialize_philo(t_table *table)
@@ -65,6 +66,8 @@ t_table *initialize_table(int argc, char **argv, int i)
     table->time_to_sleep = ft_atoi_positive(argv[i++]);
     if (argc == 6)
         table->max_meals = ft_atoi_positive(argv[i]);
+    //initialize mutex forks
+
     table->philos = initialize_philo(table);
     if (!table->philos)
         return (handle_error_and_exit(ERR_MALLOC, PHILO_INIT, table));

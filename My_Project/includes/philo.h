@@ -30,6 +30,7 @@ typedef struct s_philo
     unsigned int    meal_count;
     unsigned int    fork[2];
     time_t          last_meal_start; //Will be started when the pthread be called.
+    pthread_t       philo_th;
 }   t_philo;
 typedef struct s_table
 {
@@ -79,6 +80,6 @@ time_t      get_ms_time(void);
 bool		is_white_space(char c);
 long int	ft_atoi_positive(char *str);
 
-//philo.c
-void        *philosopher(void *data);
+//philo_routine.c
+void        *philo_routine(void *data);
 #endif

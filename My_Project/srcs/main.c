@@ -12,6 +12,29 @@
 
 #include "philo.h"
 
+static bool start_simulation(t_table *table)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		if(pthread_create(&table->philos[i]->philo_th, \
+			NULL, &philo_routine, table->philos[i]) != 0)
+                return (false); //This return should deal with errors.
+		i++;
+	}
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		if (pthread_join(table->philos[i]->philo_th, NULL) != 0)
+			return (false); //This return should deal with errors.
+		i++;
+	}
+	printf("OLA: %d\n", table->philos[0]->fork[0]);
+	return (true);
+}
+
 int	main(int argc, char **argv)
 {
 	t_table	*table;
@@ -22,7 +45,9 @@ int	main(int argc, char **argv)
 	table = initialize_table(argc, argv, 1);
 	if (!table)
 		return (EXIT_FAILURE);
-
+	/*Start the program*/
+	if (!start_simulation(table))
+		return (EXIT_FAILURE);
 	printf("Nbr Philos: %d\n", table->nbr_philos);
 	printf("Time to Die: %d\n", (int)table->time_to_die);
 	printf("Time to eat: %d\n", (int)table->time_to_eat);
