@@ -42,7 +42,8 @@ MK_FLAG		= --no-print-directory
 
 # Files
 SRCS		=	main.c input_validation.c exit.c utils.c \
-				initialize.c time.c philo_routine.c
+				initialize.c time.c philo_routine.c monitor.c \
+				output.c		
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)/%.o)
 
 # Rules

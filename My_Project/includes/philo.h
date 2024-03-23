@@ -19,8 +19,19 @@
 # include <limits.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <unistd.h>
 
 // STRUCTURES
+typedef enum e_status
+{
+    DIED = 0,
+    EATING = 1,
+    SLEEPING = 2,
+    THINKING = 3,
+    GOT_FORK_1 = 4,
+    GOT_FORK_2 = 5
+}   t_status;
+
 typedef struct s_table  t_table;
 
 typedef struct s_philo
@@ -31,6 +42,7 @@ typedef struct s_philo
     unsigned int    fork[2];
     time_t          last_meal_start; //Will be started when the pthread be called.
     pthread_t       philo_th;
+    pthread_mutex_t set_meal_start;
 }   t_philo;
 typedef struct s_table
 {
@@ -40,6 +52,11 @@ typedef struct s_table
     time_t          time_to_sleep;
     int             max_meals;
     t_philo         **philos;
+    time_t          start_time;
+    bool            philo_died;
+    pthread_mutex_t *fork_locker;
+    pthread_mutex_t sim_stop_checker;
+    pthread_mutex_t write_locker;
 }   t_table;
 
 
@@ -74,7 +91,7 @@ int         error_manage(char *str, char *detail, t_table *table);
 t_table     *initialize_table(int argc, char **argv, int i);
 
 //time.c
-time_t      get_ms_time(void);
+time_t      timestamp(void);
 
 //utils.c
 bool		is_white_space(char c);
@@ -82,4 +99,10 @@ long int	ft_atoi_positive(char *str);
 
 //philo_routine.c
 void        *philo_routine(void *data);
+
+//monitor.c
+bool        sim_stop(t_table *table);
+
+//output.c
+void    print_event(t_philo *philo, char *str);
 #endif

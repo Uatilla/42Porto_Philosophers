@@ -16,12 +16,13 @@ static bool start_simulation(t_table *table)
 {
 	unsigned int	i;
 
+	table->start_time = timestamp() + (table->nbr_philos * 2 * 10);
 	i = 0;
 	while (i < table->nbr_philos)
 	{
 		if(pthread_create(&table->philos[i]->philo_th, \
 			NULL, &philo_routine, table->philos[i]) != 0)
-                return (false); //This return should deal with errors.
+            return (false); //This return should deal with errors.
 		i++;
 	}
 	i = 0;
@@ -31,7 +32,6 @@ static bool start_simulation(t_table *table)
 			return (false); //This return should deal with errors.
 		i++;
 	}
-	printf("OLA: %d\n", table->philos[0]->fork[0]);
 	return (true);
 }
 
@@ -48,11 +48,11 @@ int	main(int argc, char **argv)
 	/*Start the program*/
 	if (!start_simulation(table))
 		return (EXIT_FAILURE);
-	printf("Nbr Philos: %d\n", table->nbr_philos);
+	/*printf("Nbr Philos: %d\n", table->nbr_philos);
 	printf("Time to Die: %d\n", (int)table->time_to_die);
 	printf("Time to eat: %d\n", (int)table->time_to_eat);
 	printf("Time to Sleep: %d\n", (int)table->time_to_sleep);
 	if (table->max_meals)
-		printf("Max meals: %d\n", table->max_meals);
+		printf("Max meals: %d\n", table->max_meals);*/
 	return (EXIT_SUCCESS);
 }

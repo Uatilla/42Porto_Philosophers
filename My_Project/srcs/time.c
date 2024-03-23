@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-time_t  get_ms_time(void)
+time_t  timestamp(void)
 {
     struct timeval      tv;
 
