@@ -50,7 +50,7 @@ typedef struct s_table
     time_t          time_to_die;
     time_t          time_to_eat;
     time_t          time_to_sleep;
-    int             max_meals;
+    unsigned int    max_meals;
     t_philo         **philos;
     time_t          start_time;
     bool            philo_died;

@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void    print_event(t_philo *philo, char *str)
+void    print_event(t_philo *philo, char *str)//I could modify every time I ask this function to call the table directly.
 {
     pthread_mutex_lock(&philo->table->write_locker);
     if (!(philo->table->philo_died))

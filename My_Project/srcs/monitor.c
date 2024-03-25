@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-bool    sim_stop(t_table *table)
+bool    sim_stop(t_table *table) //Who defines the variable philo_died as true?
 {
     bool    check_death;
 
