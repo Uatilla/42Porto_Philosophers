@@ -40,9 +40,10 @@ typedef struct s_philo
     unsigned int    id;
     unsigned int    meal_count;
     unsigned int    fork[2];
-    time_t          last_meal_start; //Will be started when the pthread be called.
+    time_t          last_meal_start;
     pthread_t       philo_th;
     pthread_mutex_t set_meal_start;
+    bool            full;
 }   t_philo;
 typedef struct s_table
 {
@@ -101,7 +102,7 @@ long int	ft_atoi_positive(char *str);
 void        *philo_routine(void *data);
 
 //monitor.c
-bool        sim_stop(t_table *table);
+bool        sim_stop(t_philo *philo);
 
 //output.c
 void    print_event(t_philo *philo, char *str);

@@ -12,14 +12,6 @@
 
 #include "philo.h"
 
-static bool philo_ate_enough(t_philo *philo)
-{
-    /*Should have a fork before check this data?*/
-    if (philo->meal_count == philo->table->max_meals)
-        return (true);
-    return (false);
-}
-
 static void doing_routine(t_table *table, time_t time)
 {
     long long i;
@@ -48,10 +40,22 @@ static void eat_routine(t_philo *philo)
     doing_routine(philo->table, philo->table->time_to_eat);
     pthread_mutex_lock(&philo->set_meal_start);
     philo->meal_count++;
+    if (philo->meal_count == philo->table->max_meals)
+        philo->full = true;
     pthread_mutex_unlock(&philo->set_meal_start);
     pthread_mutex_unlock(&philo->table->fork_locker[philo->fork[0]]);
     pthread_mutex_unlock(&philo->table->fork_locker[philo->fork[1]]);
+}
 
+void    *lone_philo(t_philo *philo)
+{
+    pthread_mutex_lock(&philo->table->fork_locker[philo->fork[0]]);
+    print_event(philo, "has taken a fork\n");
+    pthread_mutex_unlock(&philo->table->fork_locker[philo->fork[0]]);
+    while ((timestamp() - philo->table->start_time) < philo->table->time_to_die)
+        continue ;
+    print_event(philo, "died\n");
+    return (NULL);
 }
 
 void    *philo_routine(void *data)
@@ -68,38 +72,38 @@ void    *philo_routine(void *data)
     pthread_mutex_unlock(&philo->set_meal_start);
     while (timestamp() < philo->table->start_time)
         continue ;
-
-
-
-
-
+    /*6) SPECIAL CASE
+    How to deal with a lone philo.*/
     if (philo->table->nbr_philos == 1)
-        printf("Lone Philo Function call\n");
+    {
+        lone_philo(philo);
+        return (NULL);
+    }
+    /*4) SYNC
+    Why do I need this condition, should I ask the even philos to think?
+    
+    else if (philo->id % 2 == true)
+    {
+        print_event(philo, "is thinking\n");
+        usleep(100);
+    }
+    */
 
-
-
-
-
-    //Why do I need this condition, should I ask the even philos to think?
-
-
-
-
-
-
-    /*else if (philo->id % 2 == true)
-        printf("think_routine(philo)\n");*/
-    while (!sim_stop(philo->table)) //This code can be simpler.
+    
+    while (!sim_stop(philo))
     {
         eat_routine(philo);
-        if (philo_ate_enough(philo))//On the visualizer the last meal is larger than it should be.
-            break;
+
+        /* 2) MAXIMUM ATE
+        On the visualizer the last meal is larger than it should be, and the condition for a
+        a philo that already ate enough should change since, after ate enough it should
+        stop the thread. */
+
+        //CONDITION IF (!sim_stop(philo)) RUN SLEEP AND THINKING
         print_event(philo, "is sleeping\n");
         doing_routine(philo->table, philo->table->time_to_sleep);
         usleep(50);
         print_event(philo, "is thinking\n");
-        //HOW TO COMUNICATE A PHILO DEATH
-
     }
     return (NULL);
 }

@@ -19,12 +19,12 @@ static pthread_mutex_t *init_fork_mutexes(t_table *table)
 
     fork = malloc(sizeof(pthread_mutex_t) * table->nbr_philos);
     if (!fork)
-        return (NULL); //REVIEW THIS RETURN;
+        return (handle_error_and_exit(ERR_MUTEX, "", table));
     i = 0;
     while (i < table->nbr_philos)
     {
         if(pthread_mutex_init(&fork[i], NULL) != 0)
-            return (NULL);//REVIEW THIS RETURN
+            return (handle_error_and_exit(ERR_MUTEX, "", table));
         i++;
     }
     return (fork);
@@ -34,11 +34,11 @@ static bool init_mutexes(t_table *table)
 {
     table->fork_locker = init_fork_mutexes(table);
     if (!(table->fork_locker))
-        return (false); //REVIEW THIS RETURN.
+        return (false);
     if (pthread_mutex_init(&table->sim_stop_checker, NULL) != 0)
-        return (false); //This return condition must change.
+        return (false);
     if (pthread_mutex_init(&table->write_locker, NULL) != 0)
-        return (false); //This return condition must change.
+        return (false);
     return (true);
 }
 
@@ -59,6 +59,10 @@ static t_philo **initialize_philo(t_table *table)
     t_philo **philos;
     unsigned int    i;
 
+    /*ALL RETURN ERROR MUST CHANGE SINCE THE PHILO STRUCTURE ARE NOT
+    NULL ANYMORE, (OF COURSE AFTER THE ALOCATION OF THE FIRST ONE)
+    The function free_table need to be able to deal with the philo 
+    structure.*/
     philos = malloc(sizeof(t_philo) * table->nbr_philos);
     if (!philos)
         return (handle_error_and_exit(ERR_MALLOC, PHILO_INIT, 0));
@@ -71,14 +75,10 @@ static t_philo **initialize_philo(t_table *table)
         philos[i]->id = i;
         philos[i]->table = table;
         philos[i]->meal_count = 0;
+        philos[i]->full = false;
         assign_fork(philos[i]);
         if (pthread_mutex_init(&philos[i]->set_meal_start, NULL) != 0)
-            return (NULL); //This error function must be modified.
-        /*
-        The philo Mutex to change the meal time clock, and the last meal
-        start time. (When the philo started to eat, last time or the
-        start of the simulation)
-        the threads to works in parallel in the routine the forks assigned to it*/
+            return (NULL);
         i++;
     }
 
@@ -100,12 +100,10 @@ t_table *initialize_table(int argc, char **argv, int i)
         table->max_meals = ft_atoi_positive(argv[i]);
     else
         table->max_meals = -1;
-    //initialize mutex forks
     if (!init_mutexes(table))
-        return (NULL); //Review this function.
+        return (handle_error_and_exit(ERR_MUTEX, "", table));
     table->philos = initialize_philo(table);
     if (!table->philos)
         return (handle_error_and_exit(ERR_MALLOC, PHILO_INIT, table));
-    
     return (table);
 }

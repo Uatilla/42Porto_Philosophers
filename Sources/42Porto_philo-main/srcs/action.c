@@ -111,8 +111,7 @@ void	*start_dinner(t_prog *prog)
 	i = 0;
 	while (i < prog->input.nbr_philos)
 	{
-		pthread_create(&prog->philos[i].philo_th, NULL, 
-			dinner_prep, &prog->philos[i]);
+		pthread_create(&prog->philos[i].philo_th, NULL, dinner_prep, &prog->philos[i]);
 		i++;
 	}
 	pthread_mutex_lock(&prog->prog_mtx);
