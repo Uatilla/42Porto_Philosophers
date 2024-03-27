@@ -12,12 +12,32 @@
 
 #include "philo.h"
 
-void	*free_table(t_table *table)
+static void	cleaning_philos(t_philo **philo, t_table *table)
 {
-	if (!table)
-		return (NULL);
-	free(table);
-	return (NULL);
+	unsigned int	i;
+
+	i = 0;
+	while (philo[i] && i < table->nbr_philos)
+	{
+		pthread_mutex_destroy(&(table->fork_locker[i]));
+		pthread_mutex_destroy(&(table->philos[i]->set_meal_start));
+		free(philo[i]);
+		i++;
+	}
+	free(table->fork_locker);
+	free(philo);
+}
+
+void	deallocate_destroy(t_table *table)
+{
+	if (table->philos)
+	{
+		cleaning_philos(table->philos, table);
+		pthread_mutex_destroy(&(table->write_locker));
+		pthread_mutex_destroy(&(table->sim_stop_checker));
+	}
+	if (table)
+		free(table);
 }
 
 int	msg(char *str, char *detail, int exit_nbr)
@@ -28,10 +48,10 @@ int	msg(char *str, char *detail, int exit_nbr)
 	return (exit_nbr);
 }
 
-void	*handle_error_and_exit(char *str, char *detail, t_table *table)
+void	*clean_return(char *str, char *detail, t_table *table)
 {
 	if (table != NULL)
-		free_table(table);
+		deallocate_destroy(table);
 	msg(str, detail, EXIT_FAILURE);
 	return (NULL);
 }
@@ -39,6 +59,6 @@ void	*handle_error_and_exit(char *str, char *detail, t_table *table)
 int		error_manage(char *str, char *detail, t_table *table)
 {
 	if (table != NULL)
-		free_table(table);
+		deallocate_destroy(table);
 	return (msg(str, detail, 0));
 }

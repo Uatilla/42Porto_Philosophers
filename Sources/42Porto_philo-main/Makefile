@@ -26,7 +26,7 @@ RM = rm -rf
 
 # ------------- FLAGS ------------- #
 CFLAGS 	= -Wall -Wextra -Werror -g
-TH_FLAG = -pthread -fsanitize=thread
+TH_FLAG = -pthread #-fsanitize=thread
 MK_FLAG = --no-print-directory
 
 # -------------- PATHS -------------- #

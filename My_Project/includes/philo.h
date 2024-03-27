@@ -20,6 +20,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <unistd.h>
+# include <string.h>
 
 // STRUCTURES
 typedef enum e_status
@@ -40,7 +41,7 @@ typedef struct s_philo
     unsigned int    id;
     unsigned int    meal_count;
     unsigned int    fork[2];
-    time_t          last_meal_start;
+    long            last_meal_start;
     pthread_t       philo_th;
     pthread_mutex_t set_meal_start;
     bool            full;
@@ -48,13 +49,14 @@ typedef struct s_philo
 typedef struct s_table
 {
     unsigned int    nbr_philos;
-    time_t          time_to_die;
-    time_t          time_to_eat;
-    time_t          time_to_sleep;
-    unsigned int    max_meals;
+    long            time_to_die;
+    long            time_to_eat;
+    long            time_to_sleep;
+    int             max_meals;
     t_philo         **philos;
     time_t          start_time;
     bool            philo_died;
+    bool            all_full;
     pthread_mutex_t *fork_locker;
     pthread_mutex_t sim_stop_checker;
     pthread_mutex_t write_locker;
@@ -75,9 +77,9 @@ typedef struct s_table
 # define ERR_MALLOC "ERROR: MEMORY COULDN'T BE ALLOCATED\n"
 # define TABLE_INIT "Table wasn't initialized properly.\n"
 # define PHILO_INIT "Philosopher wasn't initialized properly.\n"
-# define ERR_MUTEX "ERROR: MUTEX COULDN'T BE INITIALIZED\n"
+# define ERR_MUTEX "ERROR: MUTEX\n"
 # define FORK_INIT "Fork wasn't initiliazed properly.\n"
-# define ERR_THREAD "ERROR: THREAD COULDN'T BE INITIALIZED\n"
+# define ERR_THREAD "ERROR: THREAD\n"
 
 // FUNCTION PROTOTYPES
 // input_validation.c
@@ -85,14 +87,15 @@ bool		validate_input(int argc, char **argv);
 
 // exit.c
 int			msg(char *str, char *detail, int exit_nbr);
-void        *handle_error_and_exit(char *str, char *detail, t_table *table);
+void        *clean_return(char *str, char *detail, t_table *table);
 int         error_manage(char *str, char *detail, t_table *table);
+void        deallocate_destroy(t_table *table);
 
 // initialize.c
 t_table     *initialize_table(int argc, char **argv, int i);
 
 //time.c
-time_t      timestamp(void);
+long      timestamp(void);
 
 //utils.c
 bool		is_white_space(char c);
@@ -102,7 +105,7 @@ long int	ft_atoi_positive(char *str);
 void        *philo_routine(void *data);
 
 //monitor.c
-bool        sim_stop(t_philo *philo);
+void        sim_stop_checker(t_table *table, t_philo **philo);
 
 //output.c
 void    print_event(t_philo *philo, char *str);

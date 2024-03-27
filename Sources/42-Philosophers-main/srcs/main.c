@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: uviana-a <uviana-a@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jhogonca <jhogonca@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 14:18:25 by uviana-a          #+#    #+#             */
-/*   Updated: 2024/03/17 14:18:26 by uviana-a         ###   ########.fr       */
+/*   Created: 2023/08/17 20:18:34 by heolivei          #+#    #+#             */
+/*   Updated: 2023/08/31 18:49:15 by jhogonca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
-long  timestamp(void)
+int	main(int ac, char **av)
 {
-    struct timeval      tv;
+	t_table	*table;
 
-    gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));    
+	table = init_table(ac, av);
+	if (!table)
+		return (1);
+	if (!start_dinner(table))
+		return (1);
+	clean_table(&table);
+	return (0);
 }

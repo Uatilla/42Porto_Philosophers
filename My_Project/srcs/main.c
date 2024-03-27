@@ -12,6 +12,21 @@
 
 #include "philo.h"
 
+static bool	exit_simulation(t_table *table)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < table->nbr_philos)
+	{
+		if (pthread_join(table->philos[i]->philo_th, NULL) != 0)
+			return (error_manage(ERR_THREAD, "Join\n", table));
+		i++;
+	}
+	deallocate_destroy(table);
+	return (true);
+}
+
 static bool start_simulation(t_table *table)
 {
 	unsigned int	i;
@@ -22,27 +37,17 @@ static bool start_simulation(t_table *table)
 	{
 		if(pthread_create(&table->philos[i]->philo_th, \
 			NULL, &philo_routine, table->philos[i]) != 0)
-            return (false); //This return should deal with errors.
+            return (error_manage(ERR_THREAD, "Create\n", table));
 		i++;
 	}
-
-	//Before the join I must run the death checker.
-	//How the code here between create and join works?
-	i = 0;
-	while (i < table->nbr_philos)
-	{
-		if (pthread_join(table->philos[i]->philo_th, NULL) != 0)
-			return (false); //This return should deal with errors.
-		i++;
-	}
-	return (true);
+	sim_stop_checker(table, table->philos);	
+	return (exit_simulation(table));
 }
 
 int	main(int argc, char **argv)
 {
 	t_table	*table;
 
-	table = NULL;
 	if (!validate_input(argc, argv))
 		return (EXIT_FAILURE);
 	table = initialize_table(argc, argv, 1);
