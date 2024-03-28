@@ -72,6 +72,9 @@ static t_philo	**initialize_philo(t_table *table)
 		memset(philos[i], 0, sizeof(t_philo));
 		philos[i]->id = i;
 		philos[i]->table = table;
+		philos[i]->meal_count = 0;
+		philos[i]->full = false;
+		philos[i]->dead = false;
 		assign_fork(philos[i]);
 		if (pthread_mutex_init(&philos[i]->last_meal_locker, NULL) != 0)
 			return (clean_return(ERR_MALLOC, PHILO_INIT, table));

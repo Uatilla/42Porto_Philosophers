@@ -24,7 +24,7 @@ static bool	exit_simulation(t_table *table)
 		i++;
 	}
 	if (pthread_join(table->monitor, NULL) != 0)
-		return (error_manage(ERR_THREAD, "Join Monitor\n", table));
+			return (error_manage(ERR_THREAD, "Join Monitor\n", table));
 	deallocate_destroy(table);
 	return (true);
 }
@@ -45,6 +45,9 @@ static bool	start_simulation(t_table *table)
 	if (pthread_create(&table->monitor, NULL, &sim_stop_checker, \
 			table) != 0)
 		return (error_manage(ERR_THREAD, "Create Monitor\n", table));
+	//sim_stop_checker(table, table->philos);
+	
+	
 	return (exit_simulation(table));
 }
 

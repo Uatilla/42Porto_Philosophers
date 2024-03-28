@@ -33,8 +33,8 @@ bool	stop_simulation(t_philo *philo)
 static bool	death_checker(t_table *table, t_philo **philo)
 {
 	unsigned int	i;
-	bool			philo_full;
-	long			time_hungry;
+	bool		philo_full;
+	long		time_hungry;
 
 	i = 0;
 	while (i < table->nbr_philos)
@@ -89,11 +89,12 @@ void	*sim_stop_checker(void *data)
 {
 	t_table	*table;
 	bool	any_death;
-	t_philo	**philo;
-	int		i;
-	time_t	start;
+	t_philo **philo;
+	int i;
+	time_t start;
 
 	i = 0;
+
 	table = (t_table *)data;
 	philo = table->philos;
 	pthread_mutex_lock(&table->sim_stop_checker);
@@ -112,15 +113,4 @@ void	*sim_stop_checker(void *data)
 		usleep(500);
 	}
 	return (NULL);
-}
-
-void	wait_start(t_philo *philo)
-{
-	long	start;
-
-	pthread_mutex_lock(&philo->table->sim_stop_checker);
-	start = philo->table->start_time;
-	pthread_mutex_unlock(&philo->table->sim_stop_checker);
-	while (timestamp() < start)
-		continue ;
 }

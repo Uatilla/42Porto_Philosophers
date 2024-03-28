@@ -92,6 +92,7 @@ bool		is_white_space(char c);
 long int	ft_atoi_positive(char *str);
 long		timestamp(void);
 void		print_event(t_philo *philo, char *str);
+//void		doing_routine(t_table *table, long time);
 void		doing_routine(t_table *table, t_philo *philo, long time);
 
 //philo_routine.c
@@ -100,6 +101,5 @@ void		*philo_routine(void *data);
 //monitor.c
 void		*sim_stop_checker(void *data);
 bool		stop_simulation(t_philo *philo);
-void		wait_start(t_philo *philo);
 
 #endif
