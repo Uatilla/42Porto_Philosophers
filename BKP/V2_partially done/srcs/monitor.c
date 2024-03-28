@@ -91,18 +91,14 @@ void	*sim_stop_checker(void *data)
 	bool	any_death;
 	t_philo **philo;
 	int i;
-	time_t start;
 
 	i = 0;
 
 	table = (t_table *)data;
 	philo = table->philos;
 	pthread_mutex_lock(&table->sim_stop_checker);
-	start = table->start_time;
 	any_death = table->philo_died;
 	pthread_mutex_unlock(&table->sim_stop_checker);
-	while (timestamp() < start)
-		continue ;
 	if (any_death)
 		return (NULL);
 	while (!(meal_done_checker(table, philo)))

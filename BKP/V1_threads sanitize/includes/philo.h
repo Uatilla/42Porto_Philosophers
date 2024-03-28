@@ -27,14 +27,12 @@ typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
-	pthread_mutex_t	last_meal_locker;
-	pthread_mutex_t	meal_death_checker;
+	pthread_mutex_t	set_meal_start;
 	unsigned int	id;
 	unsigned int	meal_count;
 	unsigned int	fork[2];
 	long			last_meal_start;
 	bool			full;
-	bool			dead;
 	t_table			*table;
 	pthread_t		philo_th;
 }	t_philo;
@@ -44,7 +42,6 @@ typedef struct s_table
 	pthread_mutex_t	*fork_locker;
 	pthread_mutex_t	sim_stop_checker;
 	pthread_mutex_t	write_locker;
-	pthread_t		monitor;
 	unsigned int	nbr_philos;
 	long			time_to_die;
 	long			time_to_eat;
@@ -53,7 +50,7 @@ typedef struct s_table
 	bool			philo_died;
 	bool			all_full;
 	t_philo			**philos;
-	long			start_time;
+	time_t			start_time;
 }	t_table;
 
 // MACROS
@@ -92,13 +89,12 @@ bool		is_white_space(char c);
 long int	ft_atoi_positive(char *str);
 long		timestamp(void);
 void		print_event(t_philo *philo, char *str);
-void		doing_routine(t_table *table, long time);
+void		doing_routine(t_table *table, time_t time);
 
 //philo_routine.c
 void		*philo_routine(void *data);
 
 //monitor.c
-void		*sim_stop_checker(void *data);
-bool		stop_simulation(t_philo *philo);
+void		sim_stop_checker(t_table *table, t_philo **philo);
 
 #endif

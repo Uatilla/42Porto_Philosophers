@@ -12,34 +12,26 @@
 
 #include "philo.h"
 
-static void	cleaning_philos(t_philo **philo, t_table *table)
+void	*free_table(t_table *table)
 {
 	unsigned int	i;
-
-	i = 0;
-	while (philo[i] && i < table->nbr_philos)
+	if (!table)
+		return (NULL);
+	if (table->fork_locker != NULL)
+		free(table->fork_locker);
+	if (table->philos != NULL)
 	{
-		pthread_mutex_destroy(&(table->fork_locker[i]));
-		pthread_mutex_destroy(&(table->philos[i]->last_meal_locker));
-		pthread_mutex_destroy(&(table->philos[i]->meal_death_checker));
-		free(philo[i]);
-		i++;
+		i = 0;
+		while (i < table->nbr_philos)
+		{
+			if (table->philos[i] != NULL)
+				free(table->philos[i]);
+			i++;
+		}
+		free(table->philos);
 	}
-
-	free(table->fork_locker);
-	free(philo);
-}
-
-void	deallocate_destroy(t_table *table)
-{
-	if (table->philos)
-	{
-		cleaning_philos(table->philos, table);
-		pthread_mutex_destroy(&(table->write_locker));
-		pthread_mutex_destroy(&(table->sim_stop_checker));
-	}
-	if (table)
-		free(table);
+	free(table);
+	return (NULL);
 }
 
 int	msg(char *str, char *detail, int exit_nbr)
@@ -50,17 +42,17 @@ int	msg(char *str, char *detail, int exit_nbr)
 	return (exit_nbr);
 }
 
-void	*clean_return(char *str, char *detail, t_table *table)
+void	*handle_error_and_exit(char *str, char *detail, t_table *table)
 {
 	if (table != NULL)
-		deallocate_destroy(table);
+		free_table(table);
 	msg(str, detail, EXIT_FAILURE);
 	return (NULL);
 }
 
-int	error_manage(char *str, char *detail, t_table *table)
+int		error_manage(char *str, char *detail, t_table *table)
 {
 	if (table != NULL)
-		deallocate_destroy(table);
+		free_table(table);
 	return (msg(str, detail, 0));
 }

@@ -1,21 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: uviana-a <uviana-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 14:18:25 by uviana-a          #+#    #+#             */
-/*   Updated: 2024/03/17 14:18:26 by uviana-a         ###   ########.fr       */
+/*   Created: 2024/03/13 20:20:51 by uviana-a          #+#    #+#             */
+/*   Updated: 2024/03/13 20:20:53 by uviana-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long  timestamp(void)
+bool	is_white_space(char c)
 {
-    struct timeval      tv;
+	return (c == 32 || (c >= 9 && c <= 13));
+}
 
-    gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));    
+long int	ft_atoi_positive(char *str)
+{
+	long int	num;
+
+	num = 0;
+	while (is_white_space(*str))
+		str++;
+	if (*str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
+	{
+		num *= 10;
+		num += *str - 48;
+		str++;
+	}
+	return (num);
 }

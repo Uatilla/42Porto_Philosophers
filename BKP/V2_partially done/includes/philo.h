@@ -53,7 +53,7 @@ typedef struct s_table
 	bool			philo_died;
 	bool			all_full;
 	t_philo			**philos;
-	long			start_time;
+	time_t			start_time;
 }	t_table;
 
 // MACROS
@@ -92,7 +92,7 @@ bool		is_white_space(char c);
 long int	ft_atoi_positive(char *str);
 long		timestamp(void);
 void		print_event(t_philo *philo, char *str);
-void		doing_routine(t_table *table, long time);
+void		doing_routine(t_table *table, time_t time);
 
 //philo_routine.c
 void		*philo_routine(void *data);

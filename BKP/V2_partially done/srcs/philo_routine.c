@@ -35,7 +35,7 @@ static void	sleep_routine(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->table->sim_stop_checker);
 	doing_routine(philo->table, philo->table->time_to_sleep);
-	//usleep(50);
+	usleep(50);
 }
 
 static void	eat_routine(t_philo *philo)
@@ -69,7 +69,6 @@ void	*lone_philo(t_philo *philo)
 void	*philo_routine(void *data)
 {
 	t_philo	*philo;
-	time_t	start;
 
 	philo = (t_philo *)data;
 	if (philo->table->max_meals == 0)
@@ -79,10 +78,7 @@ void	*philo_routine(void *data)
 	pthread_mutex_lock(&philo->last_meal_locker);
 	philo->last_meal_start = philo->table->start_time;
 	pthread_mutex_unlock(&philo->last_meal_locker);
-	pthread_mutex_lock(&philo->table->sim_stop_checker);
-	start = philo->table->start_time;
-	pthread_mutex_unlock(&philo->table->sim_stop_checker);
-	while (timestamp() < start)
+	while (timestamp() < philo->table->start_time)
 		continue ;
 	if (philo->table->nbr_philos == 1)
     	return (lone_philo(philo));

@@ -20,12 +20,10 @@ static void	cleaning_philos(t_philo **philo, t_table *table)
 	while (philo[i] && i < table->nbr_philos)
 	{
 		pthread_mutex_destroy(&(table->fork_locker[i]));
-		pthread_mutex_destroy(&(table->philos[i]->last_meal_locker));
-		pthread_mutex_destroy(&(table->philos[i]->meal_death_checker));
+		pthread_mutex_destroy(&(table->philos[i]->set_meal_start));
 		free(philo[i]);
 		i++;
 	}
-
 	free(table->fork_locker);
 	free(philo);
 }

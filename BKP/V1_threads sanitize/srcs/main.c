@@ -20,11 +20,9 @@ static bool	exit_simulation(t_table *table)
 	while (i < table->nbr_philos)
 	{
 		if (pthread_join(table->philos[i]->philo_th, NULL) != 0)
-			return (error_manage(ERR_THREAD, "Join Philo\n", table));
+			return (error_manage(ERR_THREAD, "Join\n", table));
 		i++;
 	}
-	if (pthread_join(table->monitor, NULL) != 0)
-			return (error_manage(ERR_THREAD, "Join Monitor\n", table));
 	deallocate_destroy(table);
 	return (true);
 }
@@ -39,15 +37,10 @@ static bool	start_simulation(t_table *table)
 	{
 		if (pthread_create(&table->philos[i]->philo_th, \
 			NULL, &philo_routine, table->philos[i]) != 0)
-			return (error_manage(ERR_THREAD, "Create Philo\n", table));
+			return (error_manage(ERR_THREAD, "Create\n", table));
 		i++;
 	}
-	if (pthread_create(&table->monitor, NULL, &sim_stop_checker, \
-			table) != 0)
-		return (error_manage(ERR_THREAD, "Create Monitor\n", table));
-	//sim_stop_checker(table, table->philos);
-	
-	
+	sim_stop_checker(table, table->philos);
 	return (exit_simulation(table));
 }
 

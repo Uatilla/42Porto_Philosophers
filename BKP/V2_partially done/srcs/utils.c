@@ -20,58 +20,21 @@ long	timestamp(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-/*void	doing_routine(t_table *table, time_t time)
+void	doing_routine(t_table *table, time_t time)
 {
 	long long	i;
 
 	i = timestamp();
-	
 	while (!(table->philo_died))
 	{
 		if ((timestamp() - i) >= time)
 			break ;
 		usleep(10);
 	}
-}*/
-
-/*void	doing_routine(t_table *table, time_t time)
-{
-	long long	i;
-	bool		any_death;
-
-	i = timestamp();
-	
-	while (timestamp() - i < time)
-	{
-		pthread_mutex_lock(&table->sim_stop_checker);
-		any_death = table->philo_died;
-		pthread_mutex_unlock(&table->sim_stop_checker);
-		if (any_death)
-			break ;
-		usleep(10);
-	}
-}*/
-void	doing_routine(t_table *table, long time)
-{
-	long long	i;
-	bool		any_death;
-
-	i = timestamp();
-	
-	while (timestamp() - i < time)
-	{
-		pthread_mutex_lock(&table->sim_stop_checker);
-		any_death = table->philo_died;
-		pthread_mutex_unlock(&table->sim_stop_checker);
-		if (any_death)
-			break ;
-		usleep(100);
-	}
 }
 
 void	print_event(t_philo *philo, char *str)
 {
-	pthread_mutex_lock(&philo->table->write_locker);
 	printf("%ld ", timestamp() - philo->table->start_time);
 	printf("%d ", philo->id);
 	printf("%s\n", str);

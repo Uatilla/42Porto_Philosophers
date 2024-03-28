@@ -35,7 +35,7 @@ static void	sleep_routine(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->table->sim_stop_checker);
 	doing_routine(philo->table, philo->table->time_to_sleep);
-	//usleep(50);
+	usleep(50);
 }
 
 static void	eat_routine(t_philo *philo)
@@ -44,56 +44,55 @@ static void	eat_routine(t_philo *philo)
 	print_event(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->table->fork_locker[philo->fork[1]]);
 	print_event(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->last_meal_locker);
+	pthread_mutex_lock(&philo->table->sim_stop_checker);
 	philo->last_meal_start = timestamp();
 	print_event(philo, "is eating");
-	pthread_mutex_unlock(&philo->last_meal_locker);
+	pthread_mutex_unlock(&philo->table->sim_stop_checker);
 	doing_routine(philo->table, philo->table->time_to_eat);
 	pthread_mutex_unlock(&philo->table->fork_locker[philo->fork[0]]);
 	pthread_mutex_unlock(&philo->table->fork_locker[philo->fork[1]]);
-	pthread_mutex_lock(&philo->meal_death_checker);
+	pthread_mutex_lock(&philo->set_meal_start);
 	philo->meal_count++;
 	if ((int) philo->meal_count == philo->table->max_meals)
 		philo->full = true;
-	pthread_mutex_unlock(&philo->meal_death_checker);
+	pthread_mutex_unlock(&philo->set_meal_start);
 }
 
-void	*lone_philo(t_philo *philo)
+void	lone_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->fork_locker[philo->fork[0]]);
-    print_event(philo, "has taken a fork");
+	printf("%ld 0 has taken a fork\n", timestamp() - philo->table->start_time);
+    //print_event(philo, "has taken a fork");
 	pthread_mutex_unlock(&philo->table->fork_locker[philo->fork[0]]);
-	return (NULL);
 }
 
 void	*philo_routine(void *data)
 {
 	t_philo	*philo;
-	time_t	start;
 
 	philo = (t_philo *)data;
 	if (philo->table->max_meals == 0)
 		return (NULL);
 	if (philo->table->time_to_die == 0)
 		return (NULL);
-	pthread_mutex_lock(&philo->last_meal_locker);
+	pthread_mutex_lock(&philo->set_meal_start);
 	philo->last_meal_start = philo->table->start_time;
-	pthread_mutex_unlock(&philo->last_meal_locker);
-	pthread_mutex_lock(&philo->table->sim_stop_checker);
-	start = philo->table->start_time;
-	pthread_mutex_unlock(&philo->table->sim_stop_checker);
-	while (timestamp() < start)
+	pthread_mutex_unlock(&philo->set_meal_start);
+	while (timestamp() < philo->table->start_time)
 		continue ;
 	if (philo->table->nbr_philos == 1)
-    	return (lone_philo(philo));
+    {
+		lone_philo(philo);
+        return (NULL);
+    }
 	else if (philo->id % 2 == true)
 		usleep(500);
-	while (!stop_simulation(philo))
+	while (!(philo->table->philo_died) && !(philo->table->all_full))
 	{
 		eat_routine(philo);
-		if (!stop_simulation(philo))
+		if (!(philo->table->philo_died))
 			sleep_routine(philo);
-		if (!stop_simulation(philo))
+		if (!(philo->table->philo_died))
 			think_routine(philo);
 	}
 	return (NULL);
