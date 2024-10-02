@@ -1,7 +1,10 @@
 # Philosophers
 **Threads, Mutexes and so on** 
 
-**Philosophers** is a C project developed as part of the 42 School Common Core Program. The primary objective of this project is to create a program that effectively manages data races. Just as in economics, where resources are finite and must be allocated wisely, programming requires careful management of resources—typically data—that need to be accessed by multiple processes or threads. It is essential to ensure that this data remains accurate and reliable. In this context, mutexes are employed to lock the data, preventing concurrent access and ensuring its integrity.
+![T-4nH1-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/9049a9e5-0d3d-48aa-8b98-ac58232bbcd9)
+
+
+**Philosophers** is a C project developed as part of the 42 School Common Core Program. The primary objective of this project is to create a program that effectively manages data races and avoid deadlocks. Just as in economics, where resources are finite and must be allocated wisely, programming requires careful management of resources—typically data—that need to be accessed by multiple processes or threads. It is essential to ensure that this data remains accurate and reliable. In this context, mutexes are employed to lock the data, preventing concurrent access and ensuring its integrity.
 
 For more detailed information, look at the [**subject of this project**](https://cdn.intra.42.fr/pdf/pdf/138384/en.subject.pdf).
 
@@ -13,6 +16,7 @@ You just need to download or clone this git repository.
 `git@github.com:Uatilla/42Porto_Philosophers.git`
 
 ## Usage
+![Screencastfrom2024-10-0210-51-23-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/0d3475a4-097d-4616-a21a-817c317f699b)
 
 If you want to run the project yourself:
 
@@ -20,7 +24,34 @@ If you want to run the project yourself:
  
 	- Enter the repo and run ``` make ```
   
-	- Run ./philo <number of philosophers> <time to die> <time to eat> <time to sleep> [number of times each philosopher must eat]
+	- Run ./philo <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]
+
+<table>
+  <tr>
+    <th>Argument</th>
+    <th>Rule</th>
+  </tr>
+  <tr>
+    <td>number_of_philosophers</td>
+    <td>0 < 200 </td>
+  </tr>
+  <tr>
+    <td>time_to_die</td>
+    <td>> 60 </td>
+  </tr>
+  <tr>
+    <td>time_to_eat</td>
+    <td>> 60 </td>
+  </tr>
+  <tr>
+    <td>time_to_sleep</td>
+    <td>> 60 </td>
+  </tr>
+  <tr>
+    <td>[number_of_times_each_philosopher_must_eat]</td>
+    <td>> 0 </td>
+  </tr>
+</table>
 
 * To delete all files built except the library you can run: `make clean`.
 * To delete all files built including the library you can run: `make fclean`.
@@ -33,7 +64,7 @@ If you want to run the project yourself:
 
 The Norminette is a tool provided by 42 Network to check whether the source code complies with the school's norm. The rules include the prohibition of ‘for’ loops, a limit of 25 lines, and no more than 4 parameters in each function, among other specifications.
 
-Here is a [link](https://42.nauman.cc/2023/06/01/getting-started-norminette/) to more details about what is evaluated by the Norminette tool.
+Here is a [link](https://github.com/gdamion/Norminette/blob/master/norme.en.pdf) to more details about what is evaluated by the Norminette tool.
 
 ## Sources
 
