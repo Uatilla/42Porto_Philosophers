@@ -13,6 +13,7 @@ You just need to download or clone this git repository.
 `git@github.com:Uatilla/42Porto_Philosophers.git`
 
 ## Usage
+![Screencastfrom2024-10-0210-51-23-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/0d3475a4-097d-4616-a21a-817c317f699b)
 
 If you want to run the project yourself:
 
