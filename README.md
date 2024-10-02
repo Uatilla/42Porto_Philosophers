@@ -20,7 +20,34 @@ If you want to run the project yourself:
  
 	- Enter the repo and run ``` make ```
   
-	- Run ./philo <number of philosophers> <time to die> <time to eat> <time to sleep> [number of times each philosopher must eat]
+	- Run ./philo <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]
+
+<table>
+  <tr>
+    <th>Argument</th>
+    <th>Rule</th>
+  </tr>
+  <tr>
+    <td>number_of_philosophers</td>
+    <td>0 < 200 </td>
+  </tr>
+  <tr>
+    <td>time_to_die</td>
+    <td>> 60 </td>
+  </tr>
+  <tr>
+    <td>time_to_eat</td>
+    <td>> 60 </td>
+  </tr>
+  <tr>
+    <td>time_to_sleep</td>
+    <td>> 60 </td>
+  </tr>
+  <tr>
+    <td>[number_of_times_each_philosopher_must_eat]</td>
+    <td>> 0 </td>
+  </tr>
+</table>
 
 * To delete all files built except the library you can run: `make clean`.
 * To delete all files built including the library you can run: `make fclean`.
