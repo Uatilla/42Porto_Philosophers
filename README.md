@@ -8,24 +8,20 @@ For more detailed information, look at the [**subject of this project**](https:/
 ## How to use it
 
 ### Getting Started
-[![MasterHead](https://github.com/Uatilla/42Porto_FdF/assets/112968804/63113d40-0bba-4d57-90c2-1c9babd6d0c4)](https://www.linkedin.com/in/uatilla/)
+[![MasterHead](https://github.com/user-attachments/assets/46b2dd48-f6d5-43d9-bfb4-b14cdd9faa18)](https://www.linkedin.com/in/uatilla/)
 You just need to download or clone this git repository.
-`git@github.com:Uatilla/42Porto_FdF.git`
+`git@github.com:Uatilla/42Porto_Philosophers.git`
 
-### Dependencies
+## Usage
 
-To properly run this code you must have the MiniLibX files in the right place, so first you need to **extract the file Source Files/minilibx-linux.tgz to the folder: Project Files/libraries**.
-Once done, rename the folder from minilibx-linux to mlx, to know more about what is the MiniLibX library and how it works, please go to this link:  [**42 Docs**](https://harm-smits.github.io/42docs/libs/minilibx/introduction.html
-).
-Now you can run the program properly, using the following steps:
-* Go to the folder Project Files.
-* Run `make` to build all necessary files.
-* Then run `./fdf ./maps/<select one map>`, you should select one map from the files available in the **maps folder**, for example:
-* `./fdf ./maps/t2.fdf`.
-* The result must the following:
-  ![Screenshot from 2024-05-31 12-06-22](https://github.com/Uatilla/42Porto_FdF/assets/112968804/10a36a73-08db-45fb-b9ee-218f312a641a)
+If you want to run the project yourself:
 
-* Once done, the program will run and the map will be show in a isometric perspective, you can now close pressing ESC or clicking on the close icon (X) on the window.
+	- First clone this git repository to your machine.
+ 
+	- Enter the repo and run ``` make ```
+  
+	- Run ./philo <number of philosophers> <time to die> <time to eat> <time to sleep> [number of times each philosopher must eat]
+
 * To delete all files built except the library you can run: `make clean`.
 * To delete all files built including the library you can run: `make fclean`.
 * To delete all .o files, library, and rebuild the files to run the program again, run: `make re`.
@@ -44,19 +40,6 @@ Here is a [link](https://42.nauman.cc/2023/06/01/getting-started-norminette/) to
 * **MiniLibX Guideline:** Many thank for Andre hernandez (Check his [Github](https://github.com/pulgamecanica)) who built the blog pulgamecanica that help me a lot understand how the MiniLibX works from scratch, you can check it out his amazing blog in these post [link](https://pulgamecanica.herokuapp.com/posts/mlx-starter-pack) and [link](https://pulgamecanica.herokuapp.com/posts/minilibx-tutorial).
 
 * **Bresenham Algorithm:** The wikipedia article helped me understand how the lines are drawn once only the dots coordinates are known [link](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm). 
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Contributing
 
