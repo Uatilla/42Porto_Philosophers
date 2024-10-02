@@ -20,14 +20,14 @@ static void	think_routine(t_philo *philo)
 		pthread_mutex_unlock(&philo->table->sim_stop_checker);
 		return ;
 	}
-	print_event(philo, "is thinking");
+	print_event(philo, "is thinking", GREEN);
 	pthread_mutex_unlock(&philo->table->sim_stop_checker);
 }
 
 static void	sleep_routine(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->sim_stop_checker);
-	print_event(philo, "is sleeping");
+	print_event(philo, "is sleeping", DARK_GRAY);
 	if (philo->table->all_full)
 	{
 		pthread_mutex_unlock(&philo->table->sim_stop_checker);
@@ -41,12 +41,12 @@ static void	sleep_routine(t_philo *philo)
 static void	eat_routine(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->fork_locker[philo->fork[0]]);
-	print_event(philo, "has taken a fork");
+	print_event(philo, "has taken a fork", YELLOW);
 	pthread_mutex_lock(&philo->table->fork_locker[philo->fork[1]]);
-	print_event(philo, "has taken a fork");
+	print_event(philo, "has taken a fork", YELLOW);
 	pthread_mutex_lock(&philo->last_meal_locker);
 	philo->last_meal_start = timestamp();
-	print_event(philo, "is eating");
+	print_event(philo, "is eating", BLUE);
 	pthread_mutex_unlock(&philo->last_meal_locker);
 	doing_routine(philo->table, philo, philo->table->time_to_eat);
 	pthread_mutex_unlock(&philo->table->fork_locker[philo->fork[0]]);
@@ -58,10 +58,29 @@ static void	eat_routine(t_philo *philo)
 	pthread_mutex_unlock(&philo->meal_death_checker);
 }
 
+void	print_event2(t_philo *philo, char *str, char*color)
+{
+	(void)color;
+	bool		any_death;
+
+	pthread_mutex_lock(&philo->table->write_locker);
+	any_death = philo->table->philo_died;
+	if (any_death)
+	{
+		pthread_mutex_unlock(&philo->table->write_locker);
+		return ;
+	}
+	printf("%s%ld "  RESET, color, timestamp() - philo->table->start_time);
+	printf("%d ", philo->id);
+	printf("%s\n", str);
+	pthread_mutex_unlock(&philo->table->write_locker);
+	return ;
+}
+
 void	*lone_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->fork_locker[philo->fork[0]]);
-	print_event(philo, "has taken a fork");
+	print_event(philo, "has taken a fork", YELLOW);
 	pthread_mutex_unlock(&philo->table->fork_locker[philo->fork[0]]);
 	return (NULL);
 }

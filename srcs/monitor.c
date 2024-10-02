@@ -48,7 +48,7 @@ static bool	death_checker(t_table *table, t_philo **philo)
 		if (!philo_full && time_hungry >= table->time_to_die)
 		{
 			pthread_mutex_lock(&table->sim_stop_checker);
-			print_event(philo[i], "died");
+			print_event(philo[i], "died", RED);
 			table->philo_died = true;
 			pthread_mutex_unlock(&table->sim_stop_checker);
 			return (true);

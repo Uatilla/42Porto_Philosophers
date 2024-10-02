@@ -22,6 +22,16 @@
 # include <unistd.h>
 # include <string.h>
 
+# define RED 		"\x1b[1;31m"
+# define YELLOW 	"\x1b[1;33m"
+# define GREEN 		"\x1b[1;32m"
+# define BLUE 		"\x1b[1;34m"
+# define LIGHT_GRAY "\x1b[1;37m"
+# define DARK_GRAY  "\x1b[1;90m"
+# define MAGENTA	"\033[1;35m"
+# define RESET 		"\x1b[0m"
+
+
 // STRUCTURES
 typedef struct s_table	t_table;
 
@@ -91,7 +101,7 @@ t_table		*initialize_table(int argc, char **argv, int i);
 bool		is_white_space(char c);
 long int	ft_atoi_positive(char *str);
 long		timestamp(void);
-void		print_event(t_philo *philo, char *str);
+void		print_event(t_philo *philo, char *str, char *color);
 void		doing_routine(t_table *table, t_philo *philo, long time);
 
 //philo_routine.c

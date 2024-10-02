@@ -37,7 +37,7 @@ void	doing_routine(t_table *table, t_philo *philo, long time)
 	}
 }
 
-void	print_event(t_philo *philo, char *str)
+void	print_event(t_philo *philo, char *str, char *color)
 {
 	bool		any_death;
 
@@ -48,9 +48,9 @@ void	print_event(t_philo *philo, char *str)
 		pthread_mutex_unlock(&philo->table->write_locker);
 		return ;
 	}
-	printf("%ld ", timestamp() - philo->table->start_time);
+	printf("%s%ld ", color, timestamp() - philo->table->start_time);
 	printf("%d ", philo->id);
-	printf("%s\n", str);
+	printf("%s\n" RESET, str);
 	pthread_mutex_unlock(&philo->table->write_locker);
 	return ;
 }
