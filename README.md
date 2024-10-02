@@ -37,9 +37,7 @@ Here is a [link](https://42.nauman.cc/2023/06/01/getting-started-norminette/) to
 
 ## Sources
 
-* **MiniLibX Guideline:** Many thank for Andre hernandez (Check his [Github](https://github.com/pulgamecanica)) who built the blog pulgamecanica that help me a lot understand how the MiniLibX works from scratch, you can check it out his amazing blog in these post [link](https://pulgamecanica.herokuapp.com/posts/mlx-starter-pack) and [link](https://pulgamecanica.herokuapp.com/posts/minilibx-tutorial).
 
-* **Bresenham Algorithm:** The wikipedia article helped me understand how the lines are drawn once only the dots coordinates are known [link](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm). 
 
 ## Contributing
 
