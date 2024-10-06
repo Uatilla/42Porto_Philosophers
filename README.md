@@ -6,6 +6,8 @@
 
 **Philosophers** is a C project developed as part of the 42 School Common Core Program. The primary objective of this project is to create a program that effectively manages data races and avoid deadlocks. Just as in economics, where resources are finite and must be allocated wisely, programming requires careful management of resources—typically data—that need to be accessed by multiple processes or threads. It is essential to ensure that this data remains accurate and reliable. In this context, mutexes are employed to lock the data, preventing concurrent access and ensuring its integrity.
 
+`Threads` are essentially separate flows of execution within a program that can run concurrently, allowing a program to perform multiple tasks simultaneously. The core of this project is to teach how different threads should deal with shared resources `forks`, being able to access, update, and read some content in sync, avoiding deadlocks (when each `thread/flow of execution` has only part of the resources needed and the program can't proceed). For that, we were invited to solve the "Dining Philosophers" problem. You can check more about the problem here:  [link](https://en.wikipedia.org/wiki/Dining_philosophers_problem).
+
 For more detailed information, look at the [**subject of this project**](https://cdn.intra.42.fr/pdf/pdf/138384/en.subject.pdf).
 
 ## How to use it
